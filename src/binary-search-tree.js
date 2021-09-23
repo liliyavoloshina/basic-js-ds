@@ -1,6 +1,6 @@
 // import { NotImplementedError } from '../extensions/index.js';
 
-// import { Node } from '../extensions/list-tree.js';
+import { Node } from '../extensions/list-tree.js'
 
 /**
  * Implement simple binary search tree according to task description
@@ -48,14 +48,18 @@
 class BinarySearchTree {
 
   constructor() {
-    this.root = null
-    this.left = null
-    this.right = null
+    this.rootNode = null
   }
 
-  root() {}
+  root() {
+    return this.rootNode
+  }
 
-  add(/* data */) {}
+  add(data) {
+    if (this.rootNode === null) {
+      this.rootNode = new Node(data)
+    }
+  }
 
   has(/* data */) {}
 
@@ -69,5 +73,5 @@ class BinarySearchTree {
 }
 
 const tree = new BinarySearchTree()
-
-console.log(tree.root())
+tree.add(1)
+console.log(tree.root().data)
