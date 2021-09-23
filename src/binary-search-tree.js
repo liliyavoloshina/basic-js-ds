@@ -56,8 +56,31 @@ class BinarySearchTree {
   }
 
   add(data) {
+    const newNode = new Node(data)
+
     if (this.rootNode === null) {
-      this.rootNode = new Node(data)
+      this.rootNode = newNode
+    } else {
+      this.addCheck(this.rootNode, newNode)
+    }
+  }
+
+  addCheck(node, newNode) {
+    // go left 
+    if (newNode.data < node.data) {
+      if (node.left === null) {
+        node.left = newNode
+      } else {
+        this.addCheck(node.left, newNode)
+      }
+    }
+    // go right 
+    if (newNode.data > node.data) {
+      if (node.right === null) {
+        node.right = newNode
+      } else {
+        this.addCheck(node.right, newNode)
+      }
     }
   }
 
@@ -73,5 +96,7 @@ class BinarySearchTree {
 }
 
 const tree = new BinarySearchTree()
+tree.add(2)
 tree.add(1)
-console.log(tree.root().data)
+tree.add(3)
+console.log(tree.root())
