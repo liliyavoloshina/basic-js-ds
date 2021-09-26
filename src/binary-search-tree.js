@@ -45,6 +45,7 @@ import { Node } from '../extensions/list-tree.js'
 
 // }
 
+// export default class BinarySearchTree {
 class BinarySearchTree {
 
   constructor() {
@@ -84,7 +85,20 @@ class BinarySearchTree {
     }
   }
 
-  has(/* data */) {}
+  has(el, node = this.rootNode) {
+
+    if (node.data === el) {
+      return true
+    } 
+
+    if (el < node.data && node.left) {
+      return this.has(el, node.left)
+    } else if (el > node.data && node.right) {
+      return this.has(el, node.right)
+    } else {
+      return false
+    }
+  }
 
   find(/* data */) {}
 
@@ -99,4 +113,4 @@ const tree = new BinarySearchTree()
 tree.add(2)
 tree.add(1)
 tree.add(3)
-console.log(tree.root())
+console.log(tree.has(1))
