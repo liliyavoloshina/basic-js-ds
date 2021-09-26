@@ -45,8 +45,8 @@ import { Node } from '../extensions/list-tree.js'
 
 // }
 
-// export default class BinarySearchTree {
-class BinarySearchTree {
+export default class BinarySearchTree {
+  // class BinarySearchTree {
 
   constructor() {
     this.rootNode = null
@@ -67,7 +67,7 @@ class BinarySearchTree {
   }
 
   addCheck(node, newNode) {
-    // go left 
+    // go left
     if (newNode.data < node.data) {
       if (node.left === null) {
         node.left = newNode
@@ -75,7 +75,7 @@ class BinarySearchTree {
         this.addCheck(node.left, newNode)
       }
     }
-    // go right 
+    // go right
     if (newNode.data > node.data) {
       if (node.right === null) {
         node.right = newNode
@@ -86,10 +86,9 @@ class BinarySearchTree {
   }
 
   has(el, node = this.rootNode) {
-
     if (node.data === el) {
       return true
-    } 
+    }
 
     if (el < node.data && node.left) {
       return this.has(el, node.left)
@@ -101,10 +100,23 @@ class BinarySearchTree {
   }
 
   find(data, node = this.rootNode) {
-
     if (node.data === data) {
       return node
-    } 
+    }
+
+    if (data < node.data && node.left) {
+      return this.find(data, node.left)
+    } else if (data > node.data && node.right) {
+      return this.find(data, node.right)
+    } else {
+      return null
+    }
+  }
+
+  find(data, node = this.rootNode) {
+    if (node.data === data) {
+      return node
+    }
 
     if (data < node.data && node.left) {
       return this.find(data, node.left)
@@ -117,9 +129,21 @@ class BinarySearchTree {
 
   remove(/* data */) {}
 
-  min() {}
+  min() {
+    let min = this.rootNode
+    while (min.left !== null) {
+      min = min.left
+    }
+    return min.data
+  }
 
-  max() {}
+  max() {
+    let max = this.rootNode
+    while (max.right !== null) {
+      max = max.right
+    }
+    return max.data
+  }
 }
 
 const tree = new BinarySearchTree()
