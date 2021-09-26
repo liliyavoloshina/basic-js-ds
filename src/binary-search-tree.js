@@ -100,7 +100,20 @@ class BinarySearchTree {
     }
   }
 
-  find(/* data */) {}
+  find(data, node = this.rootNode) {
+
+    if (node.data === data) {
+      return node
+    } 
+
+    if (data < node.data && node.left) {
+      return this.find(data, node.left)
+    } else if (data > node.data && node.right) {
+      return this.find(data, node.right)
+    } else {
+      return null
+    }
+  }
 
   remove(/* data */) {}
 
@@ -113,4 +126,4 @@ const tree = new BinarySearchTree()
 tree.add(2)
 tree.add(1)
 tree.add(3)
-console.log(tree.has(1))
+console.log(tree.find(2))
