@@ -6,44 +6,6 @@ import { Node } from '../extensions/list-tree.js'
  * Implement simple binary search tree according to task description
  * using Node from extensions
  */
-// export default class BinarySearchTree {
-
-//   root() {
-//     throw new NotImplementedError('Not implemented');
-//     // remove line with error and write your code here
-//   }
-
-//   add(/* data */) {
-//     throw new NotImplementedError('Not implemented');
-//     // remove line with error and write your code here
-//   }
-
-//   has(/* data */) {
-//     throw new NotImplementedError('Not implemented');
-//     // remove line with error and write your code here
-//   }
-
-//   find(/* data */) {
-//     throw new NotImplementedError('Not implemented');
-//     // remove line with error and write your code here
-//   }
-
-//   remove(/* data */) {
-//     throw new NotImplementedError('Not implemented');
-//     // remove line with error and write your code here
-//   }
-
-//   min() {
-//     throw new NotImplementedError('Not implemented');
-//     // remove line with error and write your code here
-//   }
-
-//   max() {
-//     throw new NotImplementedError('Not implemented');
-//     // remove line with error and write your code here
-//   }
-
-// }
 
 export default class BinarySearchTree {
   // class BinarySearchTree {
@@ -113,26 +75,62 @@ export default class BinarySearchTree {
     }
   }
 
-  find(data, node = this.rootNode) {
-    if (node.data === data) {
-      return node
+  remove(data) {
+    if (!this.has(data)) {
+      return
     }
 
-    if (data < node.data && node.left) {
-      return this.find(data, node.left)
-    } else if (data > node.data && node.right) {
-      return this.find(data, node.right)
-    } else {
-      return null
+    const helper = (data, node) => {
+      if (node.data === data) {
+        // if node has no children
+        if (node.left === null && node.right === null) {
+          // replace node with null ("delete it")
+          return null
+        }
+
+        // if node has only right child
+        if (node.right !== null && node.left === null) {
+          // replace node with its present right child
+          return node.right
+        }
+
+        // if node has only left child
+        if (node.left !== null && node.right === null) {
+          // replace node with its present left child
+          return node.left
+        }
+
+        // if node has two children go right and find the min node and replace it
+        let replaced = this.min(node.right)
+        node.data = replaced.data
+
+        // delete the most left node we replaced
+        node.right = helper(replaced.data, node.right)
+        return node
+      }
+
+      if (data < node.data) {
+        node.left = helper(data, node.left)
+        return node
+      }
+
+      if (data > node.data) {
+        node.right = helper(data, node.right)
+        return node
+      }
     }
+
+    helper(data, this.rootNode)
   }
 
-  remove(/* data */) {}
-
-  min() {
-    let min = this.rootNode
+  min(node = this.rootNode) {
+    let min = node
     while (min.left !== null) {
       min = min.left
+    }
+    // return an entire node if request
+    if (arguments.length > 0) {
+      return min
     }
     return min.data
   }
@@ -145,9 +143,3 @@ export default class BinarySearchTree {
     return max.data
   }
 }
-
-const tree = new BinarySearchTree()
-tree.add(2)
-tree.add(1)
-tree.add(3)
-console.log(tree.find(2))

@@ -1,4 +1,4 @@
-import { NotImplementedError } from '../extensions/index.js';
+// import { NotImplementedError } from '../extensions/index.js';
 
 /**
  * Given a singly linked list of integers l and an integer k,
@@ -19,7 +19,23 @@ import { NotImplementedError } from '../extensions/index.js';
  * }
  */
 
-export default function removeKFromList(/* l, k */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+export default function removeKFromList(l, k) {
+  const indexes = getIndexes(k)
+  function getIndexes(valueToFind) {
+    let current = l
+    let index = 0
+    let indexes = []
+
+    while (current) {
+      if (current.value === valueToFind) {
+        indexes.push(index)
+      }
+      current = current.next
+      index++
+    }
+
+    return indexes
+  }
+
+  return indexes
 }
