@@ -21,6 +21,11 @@
 
 export default function removeKFromList(l, k) {
   const indexes = getIndexes(k)
+
+  if (indexes.length > 0) {
+    removeByIndexes(indexes)
+  }
+
   function getIndexes(valueToFind) {
     let current = l
     let index = 0
@@ -37,5 +42,26 @@ export default function removeKFromList(l, k) {
     return indexes
   }
 
-  return indexes
+  function removeByIndexes(indexes) {
+    let current = l
+
+    indexes.forEach(position => {
+      if (position === 0) {
+        l = current.next
+      } else {
+        let prev = null
+        let index = 0
+
+        while (index < position) {
+          prev = current
+          current = current.next
+          index++
+        }
+
+        prev.next = current.next
+      }
+    })
+  }
+
+  return l
 }
