@@ -18,61 +18,61 @@ export default class BinarySearchTree {
     return this.rootNode
   }
 
-  add(data) {
-    const newNode = new Node(data)
-
+  add(value) {
+    const newNode = new Node(value)
     if (this.rootNode === null) {
       this.rootNode = newNode
     } else {
-      this.addCheck(this.rootNode, newNode)
-    }
-  }
+      let current = this.rootNode
 
-  addCheck(node, newNode) {
-    // go left
-    if (newNode.data < node.data) {
-      if (node.left === null) {
-        node.left = newNode
-      } else {
-        this.addCheck(node.left, newNode)
+      while (current) {
+        if (value < current.data) {
+          if (current.left === null) {
+            current.left = newNode
+            break
+          } else {
+            current = current.left
+          }
+        } else if (value > current.data) {
+          if (current.right === null) {
+            current.right = newNode
+            break
+          } else {
+            current = current.right
+          }
+        } else {
+          break
+        }
       }
     }
-    // go right
-    if (newNode.data > node.data) {
-      if (node.right === null) {
-        node.right = newNode
-      } else {
-        this.addCheck(node.right, newNode)
+  }
+
+  has(value) {
+    let current = this.rootNode
+
+    while (current) {
+      if (value === current.data) {
+        return true
       }
+
+      current = value > current.data ? current.right : current.left
     }
+
+    return false
   }
 
-  has(el, node = this.rootNode) {
-    if (node.data === el) {
-      return true
+  find(value) {
+    let current = this.rootNode
+
+    while (current) {
+      if (value === current.data) {
+        return current
+      }
+
+      current = value > current.data ? current.right : current.left
     }
 
-    if (el < node.data && node.left) {
-      return this.has(el, node.left)
-    } else if (el > node.data && node.right) {
-      return this.has(el, node.right)
-    } else {
-      return false
-    }
-  }
-
-  find(data, node = this.rootNode) {
-    if (node.data === data) {
-      return node
-    }
-
-    if (data < node.data && node.left) {
-      return this.find(data, node.left)
-    } else if (data > node.data && node.right) {
-      return this.find(data, node.right)
-    } else {
-      return null
-    }
+    return null
   }
 
   remove(data) {
