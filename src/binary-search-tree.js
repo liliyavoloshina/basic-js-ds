@@ -8,7 +8,6 @@ import { Node } from '../extensions/list-tree.js'
  */
 
 export default class BinarySearchTree {
-  // class BinarySearchTree {
 
   constructor() {
     this.rootNode = null
