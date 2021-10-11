@@ -20,28 +20,25 @@ export default class BinarySearchTree {
 
   add(value) {
     const newNode = new Node(value)
+
     if (this.rootNode === null) {
       this.rootNode = newNode
     } else {
       let current = this.rootNode
 
       while (current) {
-        if (value < current.data) {
-          if (current.left === null) {
-            current.left = newNode
-            break
-          } else {
-            current = current.left
-          }
-        } else if (value > current.data) {
+        if (value > current.data) {
           if (current.right === null) {
             current.right = newNode
             break
-          } else {
-            current = current.right
           }
-        } else {
-          break
+          current = current.right
+        } else if (value < current.data) {
+          if (current.left === null) {
+            current.left = newNode
+            break
+          }
+          current = current.left
         }
       }
     }
@@ -50,12 +47,16 @@ export default class BinarySearchTree {
   has(value) {
     let current = this.rootNode
 
-    while (current) {
+    while (current !== null) {
       if (value === current.data) {
         return true
+      } else {
+        if (value > current.data) {
+          current = current.right
+        } else if (value < current.data) {
+          current = current.left
+        }
       }
-
-      current = value > current.data ? current.right : current.left
     }
 
     return false
@@ -64,82 +65,97 @@ export default class BinarySearchTree {
   find(value) {
     let current = this.rootNode
 
-    while (current) {
-      if (value === current.data) {
+    while (current !== null) {
+      if (current.data === value) {
         return current
+      } else {
+        if (value > current.data) {
+          current = current.right
+        } else if (value < current.data) {
+          current = current.left
+        }
       }
-
-      current = value > current.data ? current.right : current.left
     }
 
     return null
   }
 
-  remove(data) {
-    if (!this.has(data)) {
-      return
-    }
+  remove(value) {
+    let nodeToRemove = this.rootNode,
+      prev = null
 
-    const helper = (data, node) => {
-      if (node.data === data) {
-        // if node has no children
-        if (node.left === null && node.right === null) {
-          // replace node with null ("delete it")
-          return null
-        }
-
-        // if node has only right child
-        if (node.right !== null && node.left === null) {
-          // replace node with its present right child
-          return node.right
-        }
-
-        // if node has only left child
-        if (node.left !== null && node.right === null) {
-          // replace node with its present left child
-          return node.left
-        }
-
-        // if node has two children go right and find the min node and replace it
-        let replaced = this.min(node.right)
-        node.data = replaced.data
-
-        // delete the most left node we replaced
-        node.right = helper(replaced.data, node.right)
-        return node
+    // find node we need to remove and its previous node 
+    while (nodeToRemove !== null) {
+      if (value === nodeToRemove.data) {
+        break
       }
 
-      if (data < node.data) {
-        node.left = helper(data, node.left)
-        return node
-      }
-
-      if (data > node.data) {
-        node.right = helper(data, node.right)
-        return node
+      if (value > nodeToRemove.data) {
+        prev = nodeToRemove
+        nodeToRemove = nodeToRemove.right
+      } else if (value < nodeToRemove.data) {
+        prev = nodeToRemove
+        nodeToRemove = nodeToRemove.left
       }
     }
 
-    helper(data, this.rootNode)
-  }
+    // maxNode is the node we replace with removing 
+    let maxNode = null
 
-  min(node = this.rootNode) {
-    let min = node
-    while (min.left !== null) {
-      min = min.left
+    // case 1: removing node has two children
+    if (nodeToRemove.right !== null && nodeToRemove.left !== null) {
+      let prevMaxNode = nodeToRemove
+      maxNode = nodeToRemove.left
+      while (maxNode.right !== null) {
+        prevMaxNode = maxNode
+        maxNode = maxNode.right
+      }
+
+      // copy left subtree from removing node to replacement
+      maxNode.right = nodeToRemove.right
+
+      if (prevMaxNode !== nodeToRemove) {
+        // remove replacement node from its current position 
+        prevMaxNode.right = null
+
+        // copy right subtree to replacement 
+        maxNode.left = nodeToRemove.left
+      }
+      // case 2: removing node has only right child 
+    } else if (nodeToRemove.right !== null) {
+      maxNode = nodeToRemove.right
+      // case 3: removing node has only left child 
+    } else if (nodeToRemove.left !== null) {
+      maxNode = nodeToRemove.left
     }
-    // return an entire node if request
-    if (arguments.length > 0) {
-      return min
+
+    // replace removing node with its max node
+    if (nodeToRemove === this.rootNode) {
+      this.rootNode = maxNode
+    } else if (nodeToRemove.data > prev.data) {
+      prev.right = maxNode
+    } else if (nodeToRemove.data < prev.data) {
+      prev.left = maxNode
     }
-    return min.data
   }
 
   max() {
-    let max = this.rootNode
-    while (max.right !== null) {
-      max = max.right
+    let current = this.rootNode
+
+    while (current.right !== null) {
+      current = current.right
     }
-    return max.data
+
+    return current.data
+  }
+
+  min() {
+    let current = this.rootNode
+
+    while (current.left !== null) {
+      current = current.left
+    }
+
+    return current.data
   }
 }
