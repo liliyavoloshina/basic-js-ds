@@ -1,6 +1,6 @@
 import { NotImplementedError } from '../extensions/index.js';
 
-// import { ListNode } from '../extensions/list-node.js';
+import { ListNode } from '../extensions/list-node.js';
 
 /**
  * Implement the Queue with a given interface via linked list (use ListNode extension above).
@@ -15,19 +15,35 @@ import { NotImplementedError } from '../extensions/index.js';
  */
 export default class Queue {
 
-  getUnderlyingList() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor() {
+    this.head = null
   }
 
-  enqueue(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  enqueue(value) {
+    const newNode = new ListNode(value)
+
+    if (this.head === null) {
+      this.head = newNode
+    } else {
+      let cur = this.head
+
+      while (cur.next !== null) {
+        cur = cur.next
+      }
+
+      cur.next = newNode
+    }
   }
 
   dequeue() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    // store top element 
+    const topElement = this.head.value
+    // remove top element 
+    this.head = this.head.next
+    return topElement
   }
 
+  getUnderlyingList() {
+    return this.head
+  }
 }
