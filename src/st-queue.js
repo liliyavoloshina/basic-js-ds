@@ -1,4 +1,4 @@
-import { NotImplementedError } from '../extensions/index.js';
+// const { NotImplementedError } = require('../extensions/index.js');
 
 import { ListNode } from '../extensions/list-node.js';
 
@@ -13,7 +13,7 @@ import { ListNode } from '../extensions/list-node.js';
  * queue.dequeue(); // returns the top element from queue and deletes it, returns 1
  * queue.getUnderlyingList() // returns { value: 3, next: null }
  */
-export default class Queue {
+module.exports = class Queue {
 
   constructor() {
     this.head = null

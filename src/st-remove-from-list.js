@@ -19,7 +19,7 @@
  * }
  */
 
-export default function removeKFromList(l, k) {
+ module.exports = function removeKFromList(l, k) {
   const indexes = getIndexes(k)
 
   if (indexes.length > 0) {

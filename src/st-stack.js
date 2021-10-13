@@ -12,7 +12,7 @@
  * stack.pop(); // undefined
  *
  */
-export default class Stack {
+ module.exports = class Stack {
   constructor() {
     this.stack = []
   }
