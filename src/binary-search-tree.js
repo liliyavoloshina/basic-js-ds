@@ -1,25 +1,13 @@
-<<<<<<< HEAD
 // import { NotImplementedError } from '../extensions/index.js';
 
-import { Node } from '../extensions/list-tree.js'
+const { Node } = require('../extensions/list-tree.js')
 
 /**
  * Implement simple binary search tree according to task description
  * using Node from extensions
  */
 
-export default class BinarySearchTree {
-=======
-const { NotImplementedError } = require('../extensions/index.js');
-
-// const { Node } = require('../extensions/list-tree.js');
-
-/**
-* Implement simple binary search tree according to task description
-* using Node from extensions
-*/
-module.exports = class BinarySearchTree {
->>>>>>> b5b9292e2057d8cfbe1732ba870c3e7850f3ed84
+ module.exports = class BinarySearchTree {
 
   constructor() {
     this.rootNode = null
